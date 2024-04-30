@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
@@ -10,6 +9,7 @@ contract TokenLock is Ownable, ReentrancyGuard, Locking20{
     using SafeERC20 for IERC20;
     /// @dev Total amount of reward tokens in the contract.
     uint256 private contractTokenBalance;
+    address oracle;
 
 
     mapping(address => uint256) public lockedBalances;
@@ -23,6 +23,39 @@ contract TokenLock is Ownable, ReentrancyGuard, Locking20{
             Locking20(nativeTokenWrapper, lockingToken, lockingTokenDecimals)
         {    
         _setupOwner(_defaultAdmin);
+    }
+
+    modifier onlyOracle() {
+        if (msg.sender != oracle) {
+            revert OwnableUnauthorized();
+        }
+        _;
+    }
+
+    function setOracle(address _oracle) external onlyOwner {
+        oracle = _oracle;
+    }
+
+    /**
+     *  @notice    Lock ERC20 Tokens.
+     *
+     *  @dev       See {_lock}. Override that to implement custom logic.
+     *
+     *  @param _amount    Amount to lock.
+     */
+    function lock(uint256 _amount) external payable nonReentrant {
+        _lock(_amount);
+    }
+
+    /**
+     *  @notice    Unlock locked ERC20 tokens.
+     *
+     *  @dev       See {_unlock}. Override that to implement custom logic.
+     *
+     *  @param _amount    Amount to unlock.
+     */
+    function unlock(uint256 _amount) external nonReentrant onlyOracle {
+        _unlock(_amount);
     }
 
     /// @notice View total rewards available in the staking contract.
