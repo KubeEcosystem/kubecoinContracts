@@ -567,28 +567,6 @@ abstract contract Locking20 is ReentrancyGuard, ILocking20 {
     //////////////////////////////////////////////////////////////*/
 
     /**
-     *  @notice    Lock ERC20 Tokens.
-     *
-     *  @dev       See {_lock}. Override that to implement custom logic.
-     *
-     *  @param _amount    Amount to lock.
-     */
-    function lock(uint256 _amount) external payable nonReentrant {
-        _lock(_amount);
-    }
-
-    /**
-     *  @notice    Unlock locked ERC20 tokens.
-     *
-     *  @dev       See {_unlock}. Override that to implement custom logic.
-     *
-     *  @param _amount    Amount to unlock.
-     */
-    function unlock(uint256 _amount) external nonReentrant {
-        _unlock(_amount);
-    }
-
-    /**
      *  @notice View amount staked and rewards for a user.
      *
      *  @param _user            Address of the lock.
