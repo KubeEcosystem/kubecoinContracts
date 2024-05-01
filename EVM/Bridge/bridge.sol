@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.0;
 
-/// @author thirdweb
-
 import "./abstract.sol";
 
 contract TokenLock is Ownable, ReentrancyGuard, Locking20{
