@@ -7,7 +7,7 @@ import "./abstract.sol";
 
 contract TokenLock is Ownable, ReentrancyGuard, Locking20{
     using SafeERC20 for IERC20;
-    /// @dev Total amount of reward tokens in the contract.
+
     uint256 private contractTokenBalance;
     address oracle;
 
