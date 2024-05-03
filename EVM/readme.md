@@ -1,6 +1,6 @@
 # KubeCoin Contract
 
-This is a Solidity smart contract for a token called KubeCoin. The contract is built using OpenZeppelin's contract library and is compatible with OpenZeppelin Contracts version 5.0.0 and later.
+This is a Solidity smart contract for the KubeCoin token. The contract is built using OpenZeppelin's contract library and is compatible with OpenZeppelin Contracts version 5.0.0 and later.
 
 ## License
 
