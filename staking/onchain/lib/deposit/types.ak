@@ -1,35 +1,26 @@
-use aiken/hash.{Blake2b_224, Hash}
+//// Deposit Contracs Types
+
 use aiken/time.{PosixTime}
-use aiken/transaction/credential.{VerificationKey}
-use aiken/transaction/value.{AssetName, PolicyId}
+use common/types.{VerificationKeyHash}
 
-// ============================================================================
-// == Common Types
+pub type BankDatum { owner: VerificationKeyHash }
 
-pub type VerificationKeyHash =
-  Hash<Blake2b_224, VerificationKey>
-
-pub type AssetClass {
-  policy: PolicyId,
-  name: AssetName,
+pub type DepositFixDatum {
+  deposit_bank_owner: VerificationKeyHash,
+  deposit_end: PosixTime,
+  deposit_bank_fraction: Int
 }
 
-// ============================================================================
-// == Deposit Types
-
-pub type Datum {
-  BankDatum { owner: VerificationKeyHash }
-  DepositFlexDatum { beneficiar: VerificationKeyHash, deposit_start: PosixTime }
-  DepositFixDatum {
-    beneficiar: VerificationKeyHash,
-    deposit_start: PosixTime,
-    deposit_end: PosixTime,
-  }
+pub type DepositDatum {
+  beneficiar: VerificationKeyHash,
+  deposit_start: PosixTime,
+  /// Required for Fixed deposits, for Flexible should be None
+  fixed: Option<DepositFixDatum>, 
 }
 
-pub type Redeemer {
+pub type BankRedeemer {
+  DepositFlex
   DepositFix
   WithdrawFlex
-  WithdrawFix
-  ProviderWithdraw
+  WithdrawByProvider
 }

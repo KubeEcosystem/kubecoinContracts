@@ -1,6 +1,6 @@
 //// Tests Helpers
 
-use deposit/types.{Datum, AssetClass}
+use common/types.{AssetClass}
 use aiken/transaction.{Spend, OutputReference, Transaction, ScriptContext, Output, TransactionId, NoDatum, InlineDatum}
 use aiken/transaction/credential.{Address}
 use aiken/transaction/value
@@ -34,7 +34,7 @@ pub fn make_output(address: Address, asset: AssetClass, value: Int) -> Output {
   }
 }
 
-pub fn make_output_datum(address: Address, asset: AssetClass, value: Int, datum: Datum) -> Output {
+pub fn make_output_datum(address: Address, asset: AssetClass, value: Int, datum) -> Output {
   Output {
     address: address,
     value: value.from_asset(asset.policy, asset.name, value),

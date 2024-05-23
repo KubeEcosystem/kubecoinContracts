@@ -1,15 +1,17 @@
-//// Deposit Params
+//// Deposit Params - helping fixtures for testing
 
-use deposit/types.{Datum, DepositFixDatum}
+use common/types.{VerificationKeyHash} as common_types
+use deposit/types.{DepositDatum, DepositFixDatum} as deposit_types
 use deposit/apy
 
 pub type DepositType {
-  Fixed
   Flexible
+  Fixed
 }
 
 pub type DepositParams {
   deposit_type: DepositType,
+  bank_owner: VerificationKeyHash, // Required only for Fixed deposits
   beneficiar: ByteArray,
   bank_in: Int,
   staker_in: Int,
@@ -18,11 +20,21 @@ pub type DepositParams {
   deposit_amount: Int,
 }
 
-pub fn get_deposit_datum(self: DepositParams) -> Datum {
-  DepositFixDatum {
+pub fn get_deposit_datum(self: DepositParams) -> DepositDatum {
+  let interest = self |> get_interest
+  DepositDatum {
     beneficiar: self.beneficiar,
     deposit_start: self.deposit_start,
-    deposit_end: self.deposit_end,
+    fixed: when self.deposit_type is {
+      Flexible -> None
+      Fixed -> Some (
+        DepositFixDatum {
+          deposit_bank_owner: self.bank_owner,
+          deposit_end: self.deposit_end,
+          deposit_bank_fraction: interest
+        }
+      )
+    }
   }
 }
 
