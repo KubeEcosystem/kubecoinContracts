@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "lucid": "https://deno.land/x/lucid@0.10.7/mod.ts",
+    "cbor": "https://deno.land/x/cbor@v1.4.1/index.js"
+  }
+}

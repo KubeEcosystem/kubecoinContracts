@@ -1,0 +1,14 @@
+name = "kube/deposit"
+version = "0.0.0"
+license = "Apache-2.0"
+description = "Aiken contracts for project 'digital-boss/deposit'"
+
+[repository]
+user = "digital-boss"
+project = "kubecoin-deposit"
+platform = "github"
+
+[[dependencies]]
+name = "aiken-lang/stdlib"
+version = "1.8.0"
+source = "github"
