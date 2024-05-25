@@ -1,0 +1,352 @@
+{
+  "preamble": {
+    "title": "kube/deposit",
+    "description": "Aiken contracts for project 'digital-boss/deposit'",
+    "version": "0.0.0",
+    "plutusVersion": "v2",
+    "compiler": {
+      "name": "Aiken",
+      "version": "v1.0.26-alpha+075668b"
+    },
+    "license": "Apache-2.0"
+  },
+  "validators": [
+    {
+      "title": "always_fail.always_fail",
+      "redeemer": {
+        "title": "_redeemer",
+        "schema": {
+          "$ref": "#/definitions/Data"
+        }
+      },
+      "compiledCode": "51010000322253330034a029309b2b2b9a01",
+      "hash": "af2b5f24c6eb991d155cf4127aca34f6cfbba3bc2cee874844a11d89"
+    },
+    {
+      "title": "bank.spend",
+      "datum": {
+        "title": "datum",
+        "schema": {
+          "$ref": "#/definitions/deposit~1types~1BankDatum"
+        }
+      },
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/deposit~1types~1BankRedeemer"
+        }
+      },
+      "parameters": [
+        {
+          "title": "deposit_validator_addr",
+          "schema": {
+            "$ref": "#/definitions/ByteArray"
+          }
+        },
+        {
+          "title": "apy_params",
+          "schema": {
+            "$ref": "#/definitions/deposit~1types~1ApyParams"
+          }
+        },
+        {
+          "title": "asset",
+          "schema": {
+            "$ref": "#/definitions/common~1types~1AssetClass"
+          }
+        }
+      ],
+      "compiledCode": "590b840100003232323232323223222232323223232322533300e3232323232323232323232323232533301c30160091323232533301f30193020375400426464a666048604e0062646464a66604e605400426464a66604c6038604e6ea8c0acc0b00084c8c8c94ccc0a4cdc79bae3019302b37540106eb8c064c0acdd50120a999814801899b8700200114a02940c058dd5980b98151baa00830153756602c60526ea8020cc044c048c0a0dd5180b18141baa01900116375a60540026054604c6ea8c09800458c0a0004c02ccc024dd6180618121baa30123024375402a04064a666044603860466ea80044c8c8008c070004c09cc090dd50008b18038008b1812801181218109baa0021637586040004603c002600201e2646464a66603e602a0182646464a666044603860466ea80084c8c94ccc09cc0a800c4c94ccc094c06cc098dd5000899191919299981618178010991919192999816981398171baa001132323232323232323232323232533303a3371e02a6eb8c0fc03454ccc0e800854ccc0e8cdc78059bae302a303c375406a2a6660740022a66607466e2003c02454ccc0e8cdc42400000c2a66607466e2401401054ccc0e8cdc3804002899b870033370000c00a29405280a5014a029405280a5014a066048604a60766ea8c0a4c0ecdd501600719b8f375c605060746ea8048dd71814181d1baa03330253756604c60726ea8038cc8c8c88c8ccc07401c004c8dd69815981f1baa533303c3036303d375400226082607c6ea80044c01000cc8cc00400400c894ccc1000045300103d87a800013232533303f3371200a6eb4c0bcc104dd5001098189982180125eb804cc010010004c110008c108004c8c94ccc0f0cdc4000a400029000099299981e99b8800200110021001375a6058607c6ea8008cdc199b8100a010483403cc0080048c94ccc0e8c0c0c0ecdd5000898161981f1ba8301d301d3370466e092018480f120303303e4c0103190546004bd700981f981e1baa0013002001300100122533303b00114c0103d87a80001533303b303e0011302a3303c303d0014bd70099801001181f0009bac30263038375406666e04c08cdd59812181b9baa013302337566048606e6ea8048c8cdc09bad3036001375a606e002664644646466ec0dd419980219802998109bac3029303b3754605260766ea80b08c010c0a4c0f0dd5000918019bab3029303c3754605260786ea8005200000137506660086600a660426eb0c08cc0ecdd51814981d9baa02c003230033756605260786ea80052000001223370000400246660520026eb8c0a0c0e8dd501a1bae3027303a375406844464666002002008006444a66607c004200226660060066082004660086eb4c10000800488c8cc00400400c894ccc0ec00452f5c02660786ea0c00cc0f4004cc008008c0f80048ccc0d4c8c8cc004004010894ccc0ec004528099299981c99baf303e00200414a2266006006002607c002604a606e6ea80052825133017330370113303700a4bd7011812181b1baa001375a606e60700046eb4c0d8004c0d8008dd7181a000981a00098179baa3032302f37540022c606260640046eb4c0c0004c0c0c0b0dd5181600118150008b18168009808198071bac301130293754602e60526ea8068094c94ccc09cc084c0a0dd5000899190011810800981618149baa00116300c003375c6054604e6ea800458c050c098dd5180a18131baa0021630280023027302437540042c6eb0c08c008c084004c01004854ccc07cc0500304c8c8c94ccc088c070c08cdd500109919192999814181580109919192999814180f18149baa302d302e00213232533302a3020302b3754002264a666056a66605c014294454ccc0b8c0c40284c94ccc0b0c098c0b4dd50008991919b8f375c603c60606ea8008dd7180f18181baa02930260013031302e37540022c60226060014294054ccc0accdc424000006266e240240045280a503233300d003533302b3371000290000a400020026eb4c068c0b4dd501419b83337026eb4c0bcc0b0dd5000801a41a01e2c605c60566ea8c064c0acdd5180a98159baa3019302b3754038602c6eacc05cc0a8dd50018b1bad302c001302c302837546050004604c0022c60520026018660146600e6eb0c04cc094dd5180998129baa016230133026375400204266e04c040dd5980898121baa302730243754004a66604a0022900009929998131814801098089bab3012302537540022c604e0022c6eb0c08c008c084004c0100484cc88c8cc004004dd618139814181418141814181418141814181418121baa00322533302600114a0264a66604866e3cdd718148010020a511330030030013029001300f302137540246eb8c090c084dd500d11119b833370466e0800c004008c010c010cdc119b8233704906400a419002906d02a40606e09207822323300100100322533302300114bd7009981218019812800998010011813000919299980e980b980f1baa001132337600046e9ccc018dd6180418101baa300e30203754006466ebcc03cc084dd5000980798109baa0023022301f3754002266ec000530101800032533301d3013301e375400226464a6660440022980103d87a80001533302230250011301133023300e30213754604800297ae014c0103d87a8000330063758601c60406ea8c038c080dd5001919baf300f302137540020046044603e6ea8004530103d87a8000300b301e3754002464a6660386022603a6ea80044c038cc080c084c078dd5000a5eb80530103d87a80003005301d37540024466006004464a66603a6026603c6ea80044cdc79bae3022301f37540020062940c030c078dd51806180f1baa00122323300100100322533301f00114bd7009919299980f180280109981100119802002000899802002000981180118108009191980080080111299980e8008a5eb7bdb1804c8c94ccc070c048c074dd50008998020020010998101919bb030220013022302300137586042603c6ea8004cc010010008c8c94ccc074c048c078dd500089919180899811991ba73302430210013302430220014bd7019bb00040024bd70299980f180c180f9baa00113232323232325333027302a002132498c94ccc094c07c0044c8c94ccc0a8c0b40084c926533302730213028375400226464646464646464a666064606a0042930b1bad30330013033002375a606200260620046eb8c0bc004c0bc008dd7181680098149baa0011616302b001302737540042a66604a60360022a666050604e6ea80085261616302537540022c605000260500046eb4c098004c098008dd7181200098101baa001163022301f3754002298103d87a80003006301e37540026040004604000246038603a603a0024464a666030601c60326ea80044c94ccc064c94ccc074c07000454ccc068c040c06c0045288a99980d180a180d8008a5016163754601060366ea8c024c06cdd5002099b880030011337120060026eb4c074c068dd50008a50300730193754600e60326ea80088c068c06cc06cc06cc06cc06cc06cc06c004c050dd500511998020009bae30033015375401e6eb8c008c054dd50079180b980c0009180b0009111929998099804980a1baa0011480004dd6980c180a9baa001325333013300930143754002298103d87a80001323300100137566032602c6ea8008894ccc060004530103d87a8000132323253330183371e00e6eb8c06400c4c028cc070dd4000a5eb804cc014014008dd6980c801180e001180d000991980080080211299980b8008a6103d87a8000132323253330173371e00e6eb8c06000c4c024cc06cdd3000a5eb804cc014014008dd5980c001180d801180c8009ba5480005261365632533300d300700115333010300f37540082930b0a99980698018008a99980818079baa00414985854ccc034c00800454ccc040c03cdd50020a4c2c2a66601a66e1d200600115333010300f37540082930b0b18069baa003370e90021b8748008c00400c94ccc020c008c024dd500089919299980698080010a4c2c6eb8c038004c028dd50008b1b8748000dd7000ab9a5573aaae7955cfaba05742ae881",
+      "hash": "527b0458a51e0abdface4584ada6c513d4808c620fa55ecf1051c1c6"
+    },
+    {
+      "title": "demo/demo_token.mint",
+      "redeemer": {
+        "title": "_redeemer",
+        "schema": {
+          "$ref": "#/definitions/Data"
+        }
+      },
+      "parameters": [
+        {
+          "title": "token_name",
+          "schema": {
+            "$ref": "#/definitions/ByteArray"
+          }
+        },
+        {
+          "title": "utxo_ref",
+          "schema": {
+            "$ref": "#/definitions/aiken~1transaction~1OutputReference"
+          }
+        }
+      ],
+      "compiledCode": "59015f01000032323232323232232222533300632323253330093370e900018051baa00113232323253330103013002132533300e323300100100522533301300114a0264a66602266ebcc058c04cdd5180b0010070a51133003003001301600113371e0020182940dd718070008b1808800999119299980719b8748008c03cdd50008a5eb7bdb1804dd5980998081baa001323300100100322533301200114c0103d87a8000132323253330123371e00c6eb8c04c00c4cdd2a40006602c6e980052f5c026600a00a0046eacc04c008c058008c050004c8cc004004dd5980898091809180918090019129998080008a5eb7bdb1804c8c8c8c94ccc044cdc7a45000021003133015337606ea4008dd3000998030030019bab3012003375c6020004602800460240026eb8c040c034dd50019bac300f001300b37540042c601a601c004601800260106ea800452613656375c002ae6955ceaab9e5573eae815d0aba21",
+      "hash": "8360e0de39e6846ba234c8da822072be07fa244a909e8f5b00374144"
+    },
+    {
+      "title": "deposit.spend",
+      "datum": {
+        "title": "datum",
+        "schema": {
+          "$ref": "#/definitions/deposit~1types~1DepositDatum"
+        }
+      },
+      "redeemer": {
+        "title": "_redeemer",
+        "schema": {
+          "$ref": "#/definitions/Data"
+        }
+      },
+      "parameters": [
+        {
+          "title": "asset",
+          "schema": {
+            "$ref": "#/definitions/common~1types~1AssetClass"
+          }
+        }
+      ],
+      "compiledCode": "59040d010000323232323232322232323222533300832323232533300c3322323300100137586028602a602a602a602a602a602a602a602a60226ea800c894ccc04c004528099299980899b8f375c602c00400829444cc00c00c004c058004c00cc038dd50029bae3003300e37540142a66601800229444c94ccc034c024c038dd5000899192999807980618081baa00113232323232325333015337126eb4c0680080205288991919299980d980f001099299980c99b87332232533301c3018301d37540022900009bad3021301e375400264a6660386030603a6ea8004530103d87a80001323300100137566044603e6ea8008894ccc084004530103d87a8000132323253330213371e00e6eb8c08800c4c030cc094dd4000a5eb804cc014014008dd698110011812801181180099198008009bab3014301e3754603a00a44a666040002298103d87a8000132323253330203371e00e6eb8c08400c4c02ccc090dd3000a5eb804cc014014008dd59810801181200118110009bae3010301b37540306eb8c044c06cdd500c002899b8f00100714a06eb8c074c068dd5180d0008b180e000991980080099198008009bac300e301a3754601e60346ea8044894ccc07000452f5c026464a66603664a6660386030603a6ea80044cdc79bae3021301e37540020182940c048c074dd51809180e9baa00213301f002330040040011330040040013020002301e00122533301b00114bd6f7b63009919299980d180b180d9baa00113300400400213301e32337606040002604060420026eb0c07cc070dd5000998020020011919299980d99b8748010c070dd500089919180419810991ba733022301f0013302230200014bd7019bb00040024bd70299980e180c980e9baa0011323253330213024002149858dd71811000980f1baa001163020301d37540022980103d87a80003010301c3754002603c004603c0026e952000375a6032603400260320046eb8c05c004c05c008dd7180a80098089baa3014301137540022c600860206ea8030dd6980918079baa001163011300e37546006601c6ea8c044c048c048c048c048c048c048c048c038dd5180198071baa00514a066ebcc004c034dd5004a60103d87a800023010301130110012300f0012300e300f00114984d9594ccc014c008c018dd500189919191919192999807180880109924c64a666018601200226464a6660226028004264932999807180598079baa001132323232323232325333019301c002149858dd6980d000980d0011bad30180013018002375c602c002602c0046eb8c050004c040dd50008b0b180900098071baa0021533300c30080011533300f300e37540042930b0b18061baa00116300f001300f002375a601a002601a0046eb8c02c004c01cdd50018b1b8748008dc3a4000ae6955ceaab9e5573eae815d0aba21",
+      "hash": "59827bf239c562f9ebeae6fae640568ea697d46c3e6fa8662711fcb4"
+    }
+  ],
+  "definitions": {
+    "ByteArray": {
+      "dataType": "bytes"
+    },
+    "Data": {
+      "title": "Data",
+      "description": "Any Plutus data."
+    },
+    "Int": {
+      "dataType": "integer"
+    },
+    "List$deposit/apy/ApyTier": {
+      "dataType": "list",
+      "items": {
+        "$ref": "#/definitions/deposit~1apy~1ApyTier"
+      }
+    },
+    "Option$deposit/types/DepositFixDatum": {
+      "title": "Optional",
+      "anyOf": [
+        {
+          "title": "Some",
+          "description": "An optional value.",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "$ref": "#/definitions/deposit~1types~1DepositFixDatum"
+            }
+          ]
+        },
+        {
+          "title": "None",
+          "description": "Nothing.",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": []
+        }
+      ]
+    },
+    "aiken/transaction/OutputReference": {
+      "title": "OutputReference",
+      "description": "An `OutputReference` is a unique reference to an output on-chain. The `output_index`\n corresponds to the position in the output list of the transaction (identified by its id)\n that produced that output",
+      "anyOf": [
+        {
+          "title": "OutputReference",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "transaction_id",
+              "$ref": "#/definitions/aiken~1transaction~1TransactionId"
+            },
+            {
+              "title": "output_index",
+              "$ref": "#/definitions/Int"
+            }
+          ]
+        }
+      ]
+    },
+    "aiken/transaction/TransactionId": {
+      "title": "TransactionId",
+      "description": "A unique transaction identifier, as the hash of a transaction body. Note that the transaction id\n isn't a direct hash of the `Transaction` as visible on-chain. Rather, they correspond to hash\n digests of transaction body as they are serialized on the network.",
+      "anyOf": [
+        {
+          "title": "TransactionId",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "hash",
+              "$ref": "#/definitions/ByteArray"
+            }
+          ]
+        }
+      ]
+    },
+    "common/types/AssetClass": {
+      "title": "AssetClass",
+      "anyOf": [
+        {
+          "title": "AssetClass",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "policy",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "name",
+              "$ref": "#/definitions/ByteArray"
+            }
+          ]
+        }
+      ]
+    },
+    "deposit/apy/ApyTier": {
+      "title": "ApyTier",
+      "anyOf": [
+        {
+          "title": "ApyTier",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "max_duration_secs",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "apy",
+              "description": "APY: Percents multiplied by 100",
+              "$ref": "#/definitions/Int"
+            }
+          ]
+        }
+      ]
+    },
+    "deposit/types/ApyParams": {
+      "title": "ApyParams",
+      "anyOf": [
+        {
+          "title": "ApyParams",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "fix_tiers",
+              "$ref": "#/definitions/List$deposit~1apy~1ApyTier"
+            },
+            {
+              "title": "flex_apy",
+              "description": "APY: Percents multiplied by 100",
+              "$ref": "#/definitions/Int"
+            }
+          ]
+        }
+      ]
+    },
+    "deposit/types/BankDatum": {
+      "title": "BankDatum",
+      "anyOf": [
+        {
+          "title": "BankDatum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "owner",
+              "$ref": "#/definitions/ByteArray"
+            }
+          ]
+        }
+      ]
+    },
+    "deposit/types/BankRedeemer": {
+      "title": "BankRedeemer",
+      "anyOf": [
+        {
+          "title": "DepositFlex",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": []
+        },
+        {
+          "title": "DepositFix",
+          "dataType": "constructor",
+          "index": 1,
+          "fields": []
+        },
+        {
+          "title": "WithdrawFlex",
+          "dataType": "constructor",
+          "index": 2,
+          "fields": []
+        },
+        {
+          "title": "WithdrawByProvider",
+          "dataType": "constructor",
+          "index": 3,
+          "fields": []
+        }
+      ]
+    },
+    "deposit/types/DepositDatum": {
+      "title": "DepositDatum",
+      "anyOf": [
+        {
+          "title": "DepositDatum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "beneficiar",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "deposit_start",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "fixed",
+              "description": "Required for Fixed deposits, for Flexible should be None",
+              "$ref": "#/definitions/Option$deposit~1types~1DepositFixDatum"
+            }
+          ]
+        }
+      ]
+    },
+    "deposit/types/DepositFixDatum": {
+      "title": "DepositFixDatum",
+      "anyOf": [
+        {
+          "title": "DepositFixDatum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "deposit_bank_addr",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "deposit_bank_owner",
+              "$ref": "#/definitions/ByteArray"
+            },
+            {
+              "title": "deposit_end",
+              "$ref": "#/definitions/Int"
+            },
+            {
+              "title": "deposit_bank_fraction",
+              "$ref": "#/definitions/Int"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

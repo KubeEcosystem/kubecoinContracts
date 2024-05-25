@@ -1,0 +1,20 @@
+#!/usr/bin/env -S deno run -A
+import { selectWallet, signAndComplete } from "../../../utils.ts"
+import { TxBuilder } from "../../tx.ts";
+
+const lucid = await selectWallet();
+
+const txBuilder = new TxBuilder(lucid, {
+  depositTxHash:
+    "72805977739c053d885203903db70da3349c8b166ecdf20b7864d6e568e521a6",
+  bankTxHash:
+    "54c8f03da9ec69ffcc12f0a9771cd797f73bc4f1d28bc10f752e7fccad1f958f",
+}, "1afba0694f95a270767427a4ca1a8d1fe324853796ef96c07e87424f64656d6f31");
+
+await txBuilder.fetchScripts();
+
+const tx = await txBuilder.withdrawByProvider(await lucid.wallet.address(), 500n);
+
+await signAndComplete(lucid, tx);
+
+console.log('Done');
