@@ -4,3 +4,6 @@ Repository contains the smart contracts supporting incentive program for KUBE to
 
 - [KUBE Staking Program Details](./docs/1-staking-rules.md)
 - [Smart Contracts Design](./docs/2-smart-contracts-design.md)
+
+To upload the contracts follow this guide:
+- [KUBE Staking Program Guide](https://docs.google.com/presentation/d/15RLV12DQ14OrXKDgir4EUlcfWb9x4SH1u1t-jYQTiIM/edit?usp=sharing)
