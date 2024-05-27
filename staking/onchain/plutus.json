@@ -1,7 +1,7 @@
 {
   "preamble": {
     "title": "kube/deposit",
-    "description": "Aiken contracts for project 'digital-boss/deposit'",
+    "description": "Aiken contracts for project 'kubecoin/deposit'",
     "version": "0.0.0",
     "plutusVersion": "v2",
     "compiler": {
