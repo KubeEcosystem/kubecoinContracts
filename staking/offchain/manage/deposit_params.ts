@@ -62,6 +62,29 @@ export const depositParams = {
       name: fromText("demo1"),
     },
   },
+  preview2: {
+    apy_params: {
+      fix_tiers: [
+        {
+          max_duration_secs: BigInt(5),
+          apy: 10n,
+        },
+        {
+          max_duration_secs: BigInt(10),
+          apy: 20n,
+        },
+        {
+          max_duration_secs: BigInt(15),
+          apy: 30n,
+        },
+      ],
+      flex_apy: 1000n,
+    },
+    asset: {
+      policy: "2293e75c9ece1abae160d2adb52ed234819b449249ed825119316419",
+      name: fromText("testKube"),
+    },
+  },
 } as const satisfies Record<
   string,
   DepositParams
