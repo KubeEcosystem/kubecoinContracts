@@ -1,16 +1,16 @@
 import type { Signal } from "@preact/signals";
 import { Button } from "../components/Button.tsx";
 import { useEffect, useState } from "preact/hooks";
-import { Blockfrost, Lucid, TxComplete } from "lucid/mod.ts";
+import { Blockfrost, Lucid, TxComplete, fromText } from "lucid/mod.ts";
 import { TxBuilder } from "../cardano/tx_builder.ts";
 
 const createLucid = async (blockFrostId: string) => {
   const lucid = await Lucid.new(
     new Blockfrost(
-      "https://cardano-preview.blockfrost.io/api/v0",
+      "https://cardano-preprod.blockfrost.io/api/v0",
       blockFrostId,
     ),
-    "Preview",
+    "Preprod",
   );
   return lucid;
 };
@@ -18,21 +18,35 @@ const createLucid = async (blockFrostId: string) => {
 let lucid: Lucid;
 let txBuilder: TxBuilder;
 
+
+
+
+
+
 export default function SPA() {
   const [blockFrostId, setBlockFrostId] = useState<string>("");
   const [owner, setOwner] = useState<string>();
 
-  const onCreateLucid = async () => {
-    console.log("blockFrostId", blockFrostId);
+  
 
+
+  const onConnection = async () => {
+    console.log("blockFrostId", blockFrostId);
     lucid = await createLucid(blockFrostId);
     (window as any).lucid = lucid;
-
     console.log("lucid.network: ", lucid.network);
-
-    const wallet = await window.cardano
-      .eternl
-      .enable();
+    
+    let wallet;
+    if (window.cardano && window.cardano.nami) {
+        wallet = await window.cardano.nami.enable();
+        console.log("Nami wallet enabled");
+    } else if (window.cardano && window.cardano.eternl) {
+        wallet = await window.cardano.eternl.enable();
+        console.log("Eternl wallet enabled");
+    } else {
+        console.error("No compatible wallet found");
+        return;
+    }
 
     lucid.selectWallet(wallet);
 
@@ -43,12 +57,52 @@ export default function SPA() {
     setOwner(publicKeyHash);
     console.log(`publicKeyHash for owner: ${publicKeyHash}`);
 
+    const { paymentCredential } = lucid.utils.getAddressDetails(
+      await lucid.wallet.address(),
+    );
+
+    console.log(`paymentCredential for owner: ${paymentCredential}`);
+  }
+
+  const onCreateLucid = async () => {
+    console.log("blockFrostId", blockFrostId);
+
+    lucid = await createLucid(blockFrostId);
+    (window as any).lucid = lucid;
+
+    console.log("lucid.network: ", lucid.network);
+
+    let wallet;
+    if (window.cardano && window.cardano.nami) {
+        wallet = await window.cardano.nami.enable();
+        console.log("Nami wallet enabled");
+    } else if (window.cardano && window.cardano.eternl) {
+        wallet = await window.cardano.eternl.enable();
+        console.log("Eternl wallet enabled");
+    } else {
+        console.error("No compatible wallet found");
+        return;
+    }
+
+    lucid.selectWallet(wallet);
+
+    const publicKeyHash = lucid.utils
+      .getAddressDetails(await lucid.wallet.address())
+
+      .paymentCredential
+      ?.hash;
+    setOwner(publicKeyHash);
+    console.log(`publicKeyHash for owner: ${publicKeyHash}`);
+
+    const utxos = await lucid.wallet.getUtxos();
+    console.log(`balance owner: ${utxos}`);
+
     txBuilder = new TxBuilder(lucid, {
       depositTxHash:
-        "72805977739c053d885203903db70da3349c8b166ecdf20b7864d6e568e521a6",
+        "dd834ab4bc942d8cfa026b3d909afe3e885eb6785f4807f51f5d221c81391c9d",
       bankTxHash:
-        "54c8f03da9ec69ffcc12f0a9771cd797f73bc4f1d28bc10f752e7fccad1f958f",
-    }, "1afba0694f95a270767427a4ca1a8d1fe324853796ef96c07e87424f64656d6f31");
+        "9954759a56a193e4e079f01f98720c1d3a46e568f89a0ac1cec5ce8c5264feff",
+    }, "2293e75c9ece1abae160d2adb52ed234819b449249ed825119316419746573744b756265");
 
     await txBuilder.fetchScripts();
 
@@ -68,10 +122,165 @@ export default function SPA() {
     console.log(`success: ${success}`);
   };
 
+  const onMint = async () => {
+
+    console.log("blockFrostId", blockFrostId);
+    lucid = await createLucid(blockFrostId);
+    (window as any).lucid = lucid;
+    console.log("lucid.network: ", lucid.network);
+    
+    let wallet;
+    if (window.cardano && window.cardano.nami) {
+        wallet = await window.cardano.nami.enable();
+        console.log("Nami wallet enabled");
+    } else if (window.cardano && window.cardano.eternl) {
+        wallet = await window.cardano.eternl.enable();
+        console.log("Eternl wallet enabled");
+    } else {
+        console.error("No compatible wallet found");
+        return;
+    }
+
+    lucid.selectWallet(wallet);
+
+    const publicKeyHash = lucid.utils
+      .getAddressDetails(await lucid.wallet.address())
+      .paymentCredential
+      ?.hash;
+    setOwner(publicKeyHash);
+    console.log(`publicKeyHash for owner: ${publicKeyHash}`);
+
+    const { paymentCredential } = lucid.utils.getAddressDetails(
+      await lucid.wallet.address(),
+    );
+
+    console.log(`paymentCredential for owner: ${paymentCredential}`);
+
+    const mintingPolicy = lucid.utils.nativeScriptFromJson(
+      {
+        type: "all",
+        scripts: [
+          { type: "sig", keyHash: paymentCredential.hash },
+          {
+            type: "before",
+            slot: lucid.utils.unixTimeToSlot(Date.now() + 1000000),
+          },
+        ],
+      },
+    );
+
+    const policyId = lucid.utils.mintingPolicyToId(mintingPolicy);
+
+    const unit = policyId + fromText("TestToken");
+    console.log("onMint. lucid.network: ", lucid.network);
+
+    const tx = await lucid.newTx()
+      .mintAssets({ [unit]: 1000000n })
+      .validTo(Date.now() + 200000)
+      .attachMintingPolicy(mintingPolicy)
+      .complete();
+
+    const signedTx = await tx.sign().complete();
+    const txHash = await signedTx.submit();
+    console.log(`txHash: ${txHash}`);
+    const success = await lucid!.awaitTx(txHash);
+    console.log(`success: ${success}`);
+
+    
+  }
+
+  const onBurn = async () => {
+
+    console.log("blockFrostId", blockFrostId);
+    lucid = await createLucid(blockFrostId);
+    (window as any).lucid = lucid;
+    console.log("lucid.network: ", lucid.network);
+    
+    let wallet;
+    if (window.cardano && window.cardano.nami) {
+        wallet = await window.cardano.nami.enable();
+        console.log("Nami wallet enabled");
+    } else if (window.cardano && window.cardano.eternl) {
+        wallet = await window.cardano.eternl.enable();
+        console.log("Eternl wallet enabled");
+    } else {
+        console.error("No compatible wallet found");
+        return;
+    }
+
+    lucid.selectWallet(wallet);
+
+    const { paymentCredential } = lucid.utils.getAddressDetails(
+      await lucid.wallet.address(),
+    );
+
+    console.log(`paymentCredential for owner: ${paymentCredential}`);
+
+    const mintingPolicy = lucid.utils.nativeScriptFromJson(
+      {
+        type: "all",
+        scripts: [
+          { type: "sig", keyHash: paymentCredential.hash },
+          {
+            type: "before",
+            slot: lucid.utils.unixTimeToSlot(Date.now() + 1000000),
+          },
+        ],
+      },
+    );
+
+    const policyId = "8abacfbaccf44da3a3703eb12b893afc2b84e793d288842214fd8882";
+
+    const unit = policyId + fromText("TestToken");
+    console.log("onBurn. lucid.network: ", lucid.network);
+
+    const tx = await lucid.newTx()
+      .mintAssets({ [unit]: -500000n })
+      .validTo(Date.now() + 200000)
+      .attachMintingPolicy(mintingPolicy)
+      .complete();
+
+    const signedTx = await tx.sign().complete();
+    const txHash = await signedTx.submit();
+    console.log(`txHash: ${txHash}`);
+    const success = await lucid!.awaitTx(txHash);
+    console.log(`success: ${success}`);
+
+    
+  }
+
+  const onTransfer = async () => {
+    console.log("onTransfer. lucid.network: ", lucid.network);
+    const tx = await lucid.newTx()
+      .payToAddress("addr_test1qqzlqhp2jx0mllpf9ly2w8jkpqplcg9puyvc0t6zk88dnst5scrjmkppzd3hzdsgfgk927fgsut266qcrnl5f9pcaqdqt50y8s", { lovelace: 5000000n })
+      .complete();
+    const signedTx = await tx.sign().complete();
+    const txHash = await signedTx.submit();
+    console.log(`txHash: ${txHash}`);
+    const success = await lucid!.awaitTx(txHash);
+    console.log(`success: ${success}`);
+  }
+
+  const onTransferToken = async () => {
+    const policyId = "a26022096c6a8052987dabbfa94849ab7886cf0bb7840044e017d5be";
+    const assetName = "KubeCoin";
+
+    console.log("onTransfer. lucid.network: ", lucid.network);
+    const tx = await lucid.newTx()
+      .payToAddress("addr_test1qqzlqhp2jx0mllpf9ly2w8jkpqplcg9puyvc0t6zk88dnst5scrjmkppzd3hzdsgfgk927fgsut266qcrnl5f9pcaqdqt50y8s", { lovelace: 5000000n })
+      .payToAddress("addr_test1qqzlqhp2jx0mllpf9ly2w8jkpqplcg9puyvc0t6zk88dnst5scrjmkppzd3hzdsgfgk927fgsut266qcrnl5f9pcaqdqt50y8s", { [policyId + fromText(assetName)]: 10n })
+      .complete();
+    const signedTx = await tx.sign().complete();
+    const txHash = await signedTx.submit();
+    console.log(`txHash: ${txHash}`);
+    const success = await lucid!.awaitTx(txHash);
+    console.log(`success: ${success}`);
+  }
+
   const onAllocate = async () => {
     console.log("onAllocate. lucid.network: ", lucid.network);
     console.log(`onAllocate. publicKeyHash for owner: ${owner}`);
-    const tx = await txBuilder.allocate(1100n, owner!);
+    const tx = await txBuilder.allocate(110000n, owner!);
     await signAndComplete(tx);
   };
 
@@ -94,13 +303,23 @@ export default function SPA() {
         onInput={(e) => setBlockFrostId(e.currentTarget.value)}
       />
       <div>
-        <button className="flex flex-col" onClick={onCreateLucid}>
-          Create Lucid
-        </button>
+
+        <button className="flex flex-col" onClick={onConnection}>Connection</button>
+        
+        <button className="flex flex-col" onClick={onCreateLucid}>Create Lucid</button>
+
+        <button className="flex flex-col" onClick={onMint}>Mint</button>
+
+        <button className="flex flex-col" onClick={onBurn}>Burn</button>
+
+        <button className="flex flex-col" onClick={onTransfer}>Transfer</button>
+
+        <button className="flex flex-col" onClick={onTransferToken}>Transfer Native</button>
+        
         <button className="flex flex-col" onClick={onAllocate}>Allocate</button>
-        <button className="flex flex-col" onClick={onWithdrawByProvider}>
-          Withdraw by Provider
-        </button>
+        
+        <button className="flex flex-col" onClick={onWithdrawByProvider}>Withdraw by Provider</button>
+
       </div>
     </div>
   );
