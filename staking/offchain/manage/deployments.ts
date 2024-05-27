@@ -14,9 +14,9 @@ export const deployments: Deployments = {
   preview: {
     preview1: {
       depositRef:
-        "72805977739c053d885203903db70da3349c8b166ecdf20b7864d6e568e521a6.",
+        "dd834ab4bc942d8cfa026b3d909afe3e885eb6785f4807f51f5d221c81391c9d",
       bankRef:
-        "54c8f03da9ec69ffcc12f0a9771cd797f73bc4f1d28bc10f752e7fccad1f958f",
+        "9954759a56a193e4e079f01f98720c1d3a46e568f89a0ac1cec5ce8c5264feff",
     },
   },
 };
